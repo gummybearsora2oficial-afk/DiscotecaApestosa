@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#171027">
+  <title>Discoteca Apestosa</title>
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <main class="app">
+    <header class="topbar">
+      <div><div class="eyebrow">BIENVENIDO A</div><h1>DISCOTECA <span>APESTOSA</span></h1></div>
+      <div class="disc">♫</div>
+    </header>
+
+    <section class="stage-wrap">
+      <div class="stage" id="stage">
+        <div class="spot spot-a"></div><div class="spot spot-b"></div>
+        <div class="stage-floor"></div>
+        <div id="viewer" aria-label="Personaje bailando"></div>
+        <div class="stage-caption"><span class="live-dot"></span><span id="stageStatus">LISTO PARA BAILAR</span></div>
+        <div class="stage-hint" id="stageHint">Carga los modelos para comenzar</div>
+      </div>
+    </section>
+
+    <section class="characters">
+      <div class="section-heading"><h2>ELIGE TU PERSONAJE</h2><span>02 AVATARES</span></div>
+      <div class="character-row">
+        <button class="character active" data-character="rony"><span class="avatar-icon">R</span><span><b>RONY</b><small>Personaje 1</small></span></button>
+        <button class="character" data-character="prima"><span class="avatar-icon pink">P</span><span><b>PRIMA</b><small>Personaje 2</small></span></button>
+      </div>
+    </section>
+
+    <section class="dance-section">
+      <div class="section-heading"><h2>CATÁLOGO DE BAILES</h2><span>10 BAILES</span></div>
+      <div class="dance-grid" id="danceGrid"></div>
+      <p class="loop-note">↻ El baile se repite sin fin hasta que elijas otro.</p>
+    </section>
+
+    <section class="model-tools">
+      <details>
+        <summary>Importar modelos 3D (OBJ + MTL + texturas)</summary>
+        <p>Selecciona los archivos de cada avatar. Los OBJ que compartiste son modelos estáticos: esta primera versión usa movimientos de escenario en bucle; para mover brazos y piernas individualmente necesitaremos modelos con esqueleto.</p>
+        <label class="file-label">Modelo de Rony <input id="ronyFiles" type="file" accept=".obj,.mtl,.png,.jpg,.jpeg" multiple></label>
+        <label class="file-label">Modelo de Prima <input id="primaFiles" type="file" accept=".obj,.mtl,.png,.jpg,.jpeg" multiple></label>
+      </details>
+    </section>
+    <footer>DISCOTECA APESTOSA <span>·</span> EDICIÓN CASERA XD</footer>
+  </main>
+  <script type="importmap">
+    {"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js"}}
+  </script>
+  <script type="module" src="app.js"></script>
+</body>
+</html>

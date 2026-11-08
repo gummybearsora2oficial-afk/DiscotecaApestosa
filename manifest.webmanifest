@@ -1,0 +1,9 @@
+{
+  "name": "Discoteca Apestosa",
+  "short_name": "Discoteca",
+  "start_url": "./",
+  "display": "standalone",
+  "background_color": "#120d20",
+  "theme_color": "#171027",
+  "icons": []
+}
