@@ -45,6 +45,39 @@ showCurrent();
 function resize(){const w=viewer.clientWidth||320,h=viewer.clientHeight||260;renderer.setSize(w,h,false);camera.aspect=w/h;camera.updateProjectionMatrix()}
 new ResizeObserver(resize).observe(viewer);resize();
 
+
+async function loadBundledModel(character, folder, objName, mtlName){
+ const base = new URL(`assets/models/${folder}/`, document.baseURI);
+ try {
+  const [objResponse, mtlResponse] = await Promise.all([
+   fetch(new URL(objName, base)), fetch(new URL(mtlName, base))
+  ]);
+  if(!objResponse.ok || !mtlResponse.ok) throw new Error('No se encontraron los archivos del modelo');
+  const manager = new THREE.LoadingManager();
+  const materials = new MTLLoader(manager).parse(await mtlResponse.text(), base.href);
+  materials.preload();
+  const object = new OBJLoader(manager).setMaterials(materials).parse(await objResponse.text());
+  const bounds = new THREE.Box3().setFromObject(object);
+  const size = bounds.getSize(new THREE.Vector3());
+  const center = bounds.getCenter(new THREE.Vector3());
+  const scale = 2.15 / Math.max(size.x, size.y, size.z);
+  object.scale.setScalar(scale);
+  object.position.set(-center.x*scale, -bounds.min.y*scale, -center.z*scale);
+  object.traverse(n=>{ if(n.isMesh){ n.castShadow=true; n.receiveShadow=true; if(Array.isArray(n.material)) n.material.forEach(m=>m.side=THREE.DoubleSide); else n.material.side=THREE.DoubleSide; }});
+  const wrapper = new THREE.Group();
+  wrapper.add(object);
+  models[character] = wrapper;
+  if(selectedCharacter===character) showCurrent();
+  document.querySelector('#stageStatus').textContent = 'AVATARES LISTOS';
+  document.querySelector('#stageHint').textContent = '¡Rony y Prima ya están en la pista!';
+ } catch(error) {
+  console.error(`Error cargando ${character}:`, error);
+  document.querySelector('#stageHint').textContent = 'No se pudo cargar un modelo. Revisa tu conexión.';
+ }
+}
+loadBundledModel('rony','rony','yacult2202.obj','yacult2202.mtl');
+loadBundledModel('prima','prima','ronyxrob.obj','ronyxrob.mtl');
+
 function renderDance(t){
  if(!mixerRoot)return;
  const root=mixerRoot;const phase=t*2.6;
@@ -74,26 +107,3 @@ dances.forEach(([name,icon,id],i)=>{
 document.querySelectorAll('.character').forEach(b=>b.addEventListener('click',()=>{
  selectedCharacter=b.dataset.character;document.querySelectorAll('.character').forEach(x=>x.classList.toggle('active',x===b));showCurrent();
 }));
-async function importFiles(inputId,character){
- const files=[...document.getElementById(inputId).files];
- const obj=files.find(f=>f.name.toLowerCase().endsWith('.obj'));
- if(!obj){alert('Selecciona también el archivo .OBJ del personaje.');return}
- const urls=new Map(files.map(f=>[f.name,URL.createObjectURL(f)]));
- const manager=new THREE.LoadingManager();
- manager.setURLModifier(url=>{const name=decodeURIComponent(url.split('/').pop());return urls.get(name)||url});
- try{
-  const mtl=files.find(f=>f.name.toLowerCase().endsWith('.mtl'));
-  let loader=new OBJLoader(manager);
-  if(mtl){const text=await mtl.text();const ml=new MTLLoader(manager);const materials=ml.parse(text,'');materials.preload();loader.setMaterials(materials)}
-  const object=loader.parse(await obj.text());
-  const box=new THREE.Box3().setFromObject(object),size=box.getSize(new THREE.Vector3()),center=box.getCenter(new THREE.Vector3());
-  object.position.sub(center);const scale=2.15/Math.max(size.y,size.x,size.z);object.scale.setScalar(scale);object.position.y=0;
-  object.traverse(n=>{if(n.isMesh){n.castShadow=true;n.material.side=THREE.DoubleSide}});
-  models[character]=object;
-  if(selectedCharacter===character)showCurrent();
-  document.querySelector('#stageStatus').textContent='MODELO '+character.toUpperCase()+' CARGADO';
-  document.querySelector('#stageHint').textContent='Modelo importado · movimientos de escenario';
- }catch(e){console.error(e);alert('No se pudo cargar el OBJ/MTL. Revisa que las texturas PNG estén seleccionadas también.')}
-}
-document.querySelector('#ronyFiles').addEventListener('change',()=>importFiles('ronyFiles','rony'));
-document.querySelector('#primaFiles').addEventListener('change',()=>importFiles('prima','prima'));

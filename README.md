@@ -1,14 +1,18 @@
 # Discoteca Apestosa
 
-Primera versión web móvil del selector de personajes y bailes.
+Versión web móvil con los modelos 3D originales de Rony y Prima incluidos.
 
 ## Cómo probar
-1. Abre `index.html` desde un servidor web (por ejemplo GitHub Pages). Los módulos de Three.js se cargan desde jsDelivr, así que hace falta internet.
-2. En **Importar modelos 3D**, selecciona para cada avatar su `.obj`, `.mtl` y las texturas `.png`.
-3. Elige personaje y uno de los 10 bailes. El movimiento queda en bucle hasta elegir otro.
+1. Publica el contenido de esta carpeta en GitHub Pages.
+2. Abre la URL de GitHub Pages con internet.
+3. Rony y Prima se cargan automáticamente. Elige un personaje y uno de los 10 bailes.
 
-## Importante sobre los modelos
-Los archivos OBJ/MTL contienen geometría, materiales y texturas, pero normalmente no incluyen esqueleto ni animaciones de articulaciones. Por eso esta versión aplica movimientos de escenario al modelo completo (rebote, giro, balanceo). Para bailar moviendo brazos y piernas de forma independiente habrá que conseguir/crear modelos riggeados, por ejemplo GLB/GLTF con huesos y clips de animación.
+## Sobre los bailes
+Los archivos OBJ/MTL contienen geometría, materiales y texturas, pero no incluyen un esqueleto ni clips de animación. Por eso los 10 bailes aplican movimientos en bucle al modelo completo (rebotes, giros y balanceos). Para animar brazos y piernas de forma independiente se necesitarían modelos riggeados, por ejemplo GLB/GLTF con huesos y animaciones.
+
+## Archivos de modelos
+- `assets/models/rony/`: modelo OBJ/MTL y texturas de Rony (`yacult2202`).
+- `assets/models/prima/`: modelo OBJ/MTL y texturas de Prima (`ronyxrob`).
 
 ## Publicar en GitHub Pages
-Sube todos los archivos manteniendo la estructura. En el repositorio ve a Settings → Pages → Deploy from a branch → `main` → `/ (root)` → Save.
+Sube todos los archivos y carpetas manteniendo la estructura. En el repositorio ve a Settings → Pages → Deploy from a branch → `main` → `/ (root)` → Save.
