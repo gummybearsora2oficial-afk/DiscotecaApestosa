@@ -1,0 +1,42 @@
+newmtl Player15Mtl
+Material Color
+Ka 0 0 0
+Kd 0 0 0
+Ks 0 0 0 
+
+d 1
+
+Ns 0
+
+map_Ka yacult22021Tex.png
+map_Kd yacult22021Tex.png
+map_d yacult22021Tex.png
+
+newmtl Player1Mtl
+Material Color
+Ka 0.0666667 0.0666667 0.0666667
+Kd 0.0666667 0.0666667 0.0666667
+Ks 0.00418301 0.00418301 0.00418301 
+
+d 1
+
+Ns 0
+
+map_Ka yacult22021Tex.png
+map_Kd yacult22021Tex.png
+map_d yacult22021Tex.png
+
+newmtl Handle1Mtl
+Material Color
+Ka 0.639216 0.635294 0.647059
+Kd 0.639216 0.635294 0.647059
+Ks 0.0401077 0.0398616 0.0405998 
+
+d 1
+
+Ns 0
+
+map_Ka yacult22022Tex.png
+map_Kd yacult22022Tex.png
+map_d yacult22022Tex.png
+
